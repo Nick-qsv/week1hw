@@ -8,7 +8,8 @@ const employees = [
   { id: 8, name: "shep Jr.", managerId: 4 },
   { id: 99, name: "lucy", managerId: 1 },
 ];
-
+//so moe.result = [larry, curly, lucy] then larry.result [shep] (shep.result[shepjr]) curly.result [groucho]
+// groucho.result[harpo]
 const spacer = (text) => {
   if (!text) {
     return console.log("");
@@ -40,10 +41,13 @@ console.log(
 spacer("");
 
 spacer("findCoworkersFor Larry");
-function findCoworkersFor(obj, arr){
-//     //assuming larry is input, you get curly and lucy output
+function findCoworkersFor(obj, arr) {
+  //     //assuming larry is input, you get curly and lucy output
 
-return arr.filter((element) => element.managerId === obj.managerId && element.name !== obj.name)
+  return arr.filter(
+    (element) =>
+      element.managerId === obj.managerId && element.name !== obj.name
+  );
 }
 //given an employee and a list of employees, return the employees who report to the same manager
 console.log(
@@ -56,9 +60,9 @@ console.log(
 spacer("");
 
 spacer("findManagementChain for moe");
-function findManagementChainForEmployee(obj, arr){
-    //so return all of the managerID numbers higher than your manager ID number
-    return arr.filter((element) => element.id <= obj.managerId)
+function findManagementChainForEmployee(obj, arr) {
+  //so return all of the managerID numbers higher than your manager ID number
+  return arr.filter((element) => element.id <= obj.managerId);
 }
 //given an employee and a list of employees, return a the management chain for that employee. The management chain starts from the employee with no manager with the passed in employees manager
 console.log(
@@ -83,6 +87,39 @@ console.log(
 spacer("");
 
 spacer("generateManagementTree");
+function generateManagementTree(arr) {
+  //so moe.result = [larry, curly, lucy] then larry.result [shep] (shep.result[shepjr]) curly.result [groucho]
+  // groucho.result[harpo]
+  const idMapping = arr.reduce((accumlator, element, index) => {
+    accumlator[element.id] = index;
+    return accumlator;
+  }, {});
+
+  
+  arr.forEach(element => {
+      if(element.managerId === null){
+          
+          return;
+      }
+      const parentElement = arr[idMapping[element.managerId]]
+      parentElement.reports = [...(parentElement.reports || []), element]
+  })
+  //so this gets every elements ID
+
+  //   return arr.reduce((accumulator, employeeObject) => {
+  //     // const currID = employeeObject.id;
+  //     //so if larry has a manager id
+  //     //
+  //     // if (accumulator[currID] == null) {
+  //     //   accumulator.result = [];
+  //     // }
+  //     if (accumulator.id === employeeObject.managerId) {
+  //     //   accumlator["reports"] = [];
+  //       accumulator.reports = employeeObject;
+  //       return accumulator;
+  //     }
+  //   }, {});
+}
 //given a list of employees, generate a tree like structure for the employees, starting with the employee who has no manager. Each employee will have a reports property which is an array of the employees who report directly to them.
 console.log(JSON.stringify(generateManagementTree(employees), null, 2));
 /*
