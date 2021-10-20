@@ -63,6 +63,8 @@ spacer("findManagementChain for moe");
 function findManagementChainForEmployee(obj, arr) {
   //so return all of the managerID numbers higher than your manager ID number
   return arr.filter((element) => element.id <= obj.managerId);
+//if element.id = obj.managerID then add it to the array
+//then set obj to be that new elements managerID
 }
 //given an employee and a list of employees, return a the management chain for that employee. The management chain starts from the employee with no manager with the passed in employees manager
 console.log(
@@ -105,6 +107,7 @@ function generateManagementTree(arr) {
       parentElement.reports = [...(parentElement.reports || []), element]
   })
   //so this gets every elements ID
+  //not sure why i can't use parentElement.reports...
 
   //   return arr.reduce((accumulator, employeeObject) => {
   //     // const currID = employeeObject.id;
